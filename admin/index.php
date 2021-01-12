@@ -9,14 +9,14 @@ if(!isset($_SESSION))
     header('location: login.php');
   }
 
-  if (isset($_GET['logout'])) {
+  if (isset($_GET['logout'])) {  
     session_destroy();
     unset($_SESSION['username']);
     header("location: login.php");
   } 
  $sql = "select * from admin";
   $result = $conn->query($sql);
-  $row = $result->fetch(PDO::FETCH_ASSOC);
+  $about_data = $result->fetch(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,7 +36,7 @@ if(!isset($_SESSION))
 <nav class="navbar navbar-expand-lg navbar-light navigation-bar" style="margin-bottom:3rem">
         <div class="container">
          <p style="font-size: 40px; color:#B12100">Hey <?php 
-                echo $row['username'];
+                echo $about_data['username'];
                 ?>!!</p>
         <div class="collapse navbar-collapse" id="navbarText">
          
@@ -53,10 +53,10 @@ if(!isset($_SESSION))
 
     <!-- about us -->
     
-      <div class="container" id="about-us" style="">
+      <div class="container" id="about-us">
    <p style="color: #C62828; font-size: 30px; margin-top: 0.5rem;">About us</p>
    <?php
-    echo "<p style='text-align:justify'>".$row['about']."</p>";
+    echo "<p style='text-align:justify'>".$about_data['about']."</p>";
     ?>
 
    <button href="#" data-toggle="modal" data-target="#myModal" class="btn btn-outline-danger">
@@ -103,11 +103,59 @@ if(!isset($_SESSION))
      <?php
      $stmt=$conn->query('select * from feedback_table order by reg_date desc'); 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
-                      echo "<form action='index.php' method='post'><div class='heading' style='margin-top:3rem;'>".$row['name']."<br>".$row['email']."<p class='text-muted' >".$row['reg_date']."</p></div>";
-                      echo "<p style='text-align:justify; font-weight:lighter;'>".$row['feedback']."                      </p>";
+                      echo "<form action='index.php' method='post'><div class='heading' style='margin-top:3rem;'>".$row['name']."<br>".$row['email']."<p class='text-muted' >".$row['reg_date']."</p>" ?>
+                      <span class="<?php  
+                      if($row['comment_status']==0){
+                        echo'badge bg-success';
+                      }
+                      else
+                      {
+                        echo'badge bg-danger';
+                      }
+                      ?>" style="color:white;">
+                      <?php
+                        if($row['comment_status']==0){
+                        echo'Public';
+                      }
+                      else
+                      {
+                        echo'Private';
+                      }
+                      ?>
+                      </span></div>
+                      <?php echo "<p style='text-align:justify; font-weight:lighter;'>".$row['feedback']."                      </p>";
                       ?>
                       <input type="hidden" name="name" value="<?php echo $row['name'] ?>">
-                      <button class='btn btn-danger' type='submit' name='delete_comment' style='margin-right: 1rem;'>Delete</button></form>
+                      <button class="<?php  
+                      if($row['comment_status']==0){
+                        echo'bg-warning text-dark';
+                      }
+                      else
+                      {
+                        echo'bg-success';
+                      }
+                      ?>" 
+                      type='submit' name="<?php  
+                      if($row['comment_status']==0){
+                        echo'Private';
+                      }
+                      else
+                      {
+                        echo'Public';
+                      }
+                      ?>"  style='margin-right: 1rem; color: white;'>
+                        <?php
+                        if($row['comment_status']==0){
+                        echo'Make it Private';
+                      }
+                      else
+                      {
+                        echo'Make it Public';
+                      }
+                      ?>
+                      </button>
+                      <button  type='submit' name='delete_comment' style='margin-right: 1rem; color: white;' class="bg-danger">Delete</button>
+                    </form>
                         <?php                          } ?>
 </div>
 </div>
@@ -131,7 +179,7 @@ if(!isset($_SESSION))
             <label>About us:</label>
               <textarea class="form-control" rows="5" name="about" required>
                 <?php 
-                echo $row['about'];
+                echo $about_data['about'];
                 ?>
               </textarea>
           </div>

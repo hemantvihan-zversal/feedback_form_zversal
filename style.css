@@ -65,7 +65,7 @@
     .social-footer-icons ul li{
       display: inline-block; 
       margin-right: 1px;
-      margin-top: 3.5rem;
+      margin-top: 0.5rem;
       padding: 1px 1.5px 0.5px 1.5px; 
       width: 25px;
 
@@ -74,7 +74,7 @@
     footer {
   left: 0;
   bottom: 0;
-  height: 7rem;
+  height: 4rem;
   width: 100%;
   background-color: #808080;
   color: white;

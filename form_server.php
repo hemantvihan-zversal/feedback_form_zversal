@@ -32,12 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { //checks if email is well formed
          $ErrMsg.="Invalid email format<br>";
                                              }
-    $sql="select * from feedback_table where email = '$email'";
-    $result = $conn->query($sql);
-	    if ($result->rowCount() > 0){ //checks for feedbacks in history
-	    		$ErrMsg.="We have already received feedback from this email.Thank you:)<br>";
-	    		}
-       }
+    // $sql="select * from feedback_table where email = '$email'";
+    // $result = $conn->query($sql);
+	   //  if ($result->rowCount() > 0){ //checks for feedbacks in history
+	   //  		$ErrMsg.="We have already received feedback from this email.Thank you:)<br>";
+	   //  		}
+     }
 
   if (empty($_POST["feedback"])) {
     $ErrMsg.="Feedback can't be empty<br>";
@@ -49,6 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
   		if(empty($ErrMsg)){
 			$stmt = $conn->prepare('insert into feedback_table(name,email,feedback) values(:name,:email,:feedback)');
 			$stmt->execute(['name'=>$name,'email'=>$email,'feedback'=>$feedback,]);
+       echo '<script language="javascript">';
+                  echo 'alert("Your Feedback has been recorded :) Thank you for your valuable feedback")';
+                  echo '</script>';
         }				
 													
 }

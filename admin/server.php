@@ -133,5 +133,18 @@ if (isset($_POST['upload'])){
     $name=$_POST['name'];
     $stmt = $conn->prepare('Delete from feedback_table where name=:name');
     $stmt->execute(['name'=>$name]);
-   }                    
+   }         
+   //update comment status
+   if (isset($_POST['Public'])){ 
+    $name=$_POST['name'];
+    $c_status='0';
+    $stmt = $conn->prepare('update feedback_table set comment_status=:c_status where name=:name');
+    $stmt->execute(['c_status'=>$c_status,'name'=>$name]);
+   }     
+   if (isset($_POST['Private'])){ 
+    $name=$_POST['name'];
+    $c_status='1';
+    $stmt = $conn->prepare('update feedback_table set comment_status=:c_status where name=:name');
+    $stmt->execute(['c_status'=>$c_status,'name'=>$name]);
+   }            
 ?>

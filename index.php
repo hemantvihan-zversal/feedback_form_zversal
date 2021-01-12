@@ -1,5 +1,5 @@
 <?php 
-include 'index_server.php';
+include 'form_server.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,7 +10,7 @@ include 'index_server.php';
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="index.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <nav class="navbar fixed-top" style="background-color: #808080">
@@ -98,7 +98,7 @@ include 'index_server.php';
 <div class="jumbotron jumbotron-fluid offset-sm-3 col-sm-6 offset-sm-3">
 <p class="display-3">Latest comments</p>
      <?php
-     $stmt=$conn->query('select * from feedback_table order by reg_date desc limit 3'); 
+     $stmt=$conn->query("select * from feedback_table where comment_status='0' order by reg_date desc limit 3 "); 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
                       echo "<div class='heading'>".$row['name']."<p class='text-muted' >".$row['reg_date']."</p></div>";
                       echo "<p style='text-align:justify'>".$row['feedback']."</p>";
